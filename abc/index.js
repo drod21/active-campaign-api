@@ -15,14 +15,29 @@ const getCheckInParams = (currDate, prevDate) => ({ lastCheckInTimestamp: `${cur
 
 function getMembersCheckIns(currDate, prevDate) {
   return axios.get(`${API_ENDPOINT}/${CLUB_NUMBER}/members`, { headers, params: getCheckInParams(currDate, prevDate) })
+    .then((res) => {
+      if(res.status.message !== 'success') throw new Error('Error getting members')
+      
+      return res.members
+    })
 }
 
 function getMembersCreated(currDate, prevDate) {
   return axios.get(`${API_ENDPOINT}/${CLUB_NUMBER}/members`, { headers, params: getCreatedDateParams(currDate, prevDate) })
+    .then((res) => {
+      if(res.status.message !== 'success') throw new Error('Error getting members')
+      
+      return res.members
+    })
 }
 
 function getMembersModified(currDate, prevDate) {
   return axios.get(`${API_ENDPOINT}/${CLUB_NUMBER}/members`, { headers, params: getModifiedDateParams(currDate, prevDate) })
+    .then((res) => {
+      if(res.status.message !== 'success') throw new Error('Error getting members')
+      
+      return res.members
+    })
 }
 
 module.exports = { getMembersCheckIns, getMembersCreated, getMembersModified }

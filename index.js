@@ -11,11 +11,12 @@ const dateFormat = 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 
 async function main() {
   const prevDate = moment(getPreviousDate(), dateFormat).format(dateFormat)
+  const updatedPrevDate = (!prevDate.includes('Invalid')) ? prevDate : ''
   const currDate = moment(new Date()).format(dateFormat)
   
-  const membersCreated = await getMembersCreated(currDate, prevDate).then(updateMembers).catch(onError)
-  const membersModified = await getMembersModified(currDate, prevDate).then(updateMembers).catch(onError)
-  const membersCheckins = await getMembersCheckIns(currDate, prevDate).then(updateMembers).catch(onError)
+  const membersCreated = await getMembersCreated(currDate, updatedPrevDate).then(updateMembers).catch(onError)
+  const membersModified = await getMembersModified(currDate, updatedPrevDate).then(updateMembers).catch(onError)
+  const membersCheckins = await getMembersCheckIns(currDate, updatedPrevDate).then(updateMembers).catch(onError)
 
   // After everything is done, update the date
   writeDate(currDate)

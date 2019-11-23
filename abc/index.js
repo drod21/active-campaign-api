@@ -9,9 +9,10 @@ const headers = {
   app_id: API_APP_ID
 }
 
-const getCreatedDateParams = (currDate, prevDate) => ({ createdTimestampRange: `${currDate},${prevDate}` })
-const getModifiedDateParams = (currDate, prevDate) => ({ lastModifiedTimestampRange: `${currDate},${prevDate}` })
-const getCheckInParams = (currDate, prevDate) => ({ lastCheckInTimestamp: `${currDate},${prevDate}` })
+const getCreatedDateParams = (currDate, prevDate) => ({ createdTimestampRange: shapeDates(currDate, prevDate) })
+const getModifiedDateParams = (currDate, prevDate) => ({ lastModifiedTimestampRange: shapeDates(currDate, prevDate) })
+const getCheckInParams = (currDate, prevDate) => ({ lastCheckInTimestamp: shapeDates(currDate, prevDate) })
+const shapeDates = (currDate, prevDate) => prevDate ? `${currDate},${prevDate}` : `${currDate}`
 
 function shapeResponse(res) {
   if (res.status.message !== 'success') throw new Error('Error fetching members')

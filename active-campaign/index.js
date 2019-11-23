@@ -19,4 +19,4 @@ async function updateContacts(contacts) {
   return await Promise.all(updateContactsCall)
 }
 
-module.exports = { createActiveCampaignUser, subscribeToOnboardingList, updateActiveCampaignGoal }
+module.exports = { createActiveCampaignUser, getCurrentContacts, getCurrentContactsByEmail, updateContacts }

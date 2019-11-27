@@ -7,7 +7,7 @@ const { Member } = require('./Member/member')
 
 const updateMembers = (members) => members.map((member) => new Member(member.personal).toJson())
 const onError = (error) => console.error('Error occurred::', error)
-const dateFormat = 'YYYY-MM-DD HH:mm:ss.SSSSSS'
+const dateFormat = 'YYYY-MM-DD hh:mm:ss.SSSSSS'
 
 async function main() {
   const prevDate = moment(getPreviousDate(), dateFormat).format(dateFormat)
@@ -24,8 +24,3 @@ async function main() {
 
 
 main()
-
-/* Data needed
-  Membership Type
-  Trial Member
-*/

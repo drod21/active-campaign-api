@@ -14,9 +14,18 @@ async function getCurrentContactsByEmail(email) {
 }
 
 async function updateContacts(contacts) {
-  const updateContactsCall = contacts.map(async (contact) => await axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contact/sync`, contact, { headers }))
+  const updateContactsCall = contacts.map((contact) => axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contact/sync`, {
+    contact: contact.toJson(),
+    field: contact.toField()
+  }, { headers }))
 
   return await Promise.all(updateContactsCall)
 }
 
-module.exports = { createActiveCampaignUser, getCurrentContacts, getCurrentContactsByEmail, updateContacts }
+async function createActiveCampaignUsers(contacts) {
+  const createContactsCall = contacts.map((contact) => axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contacts`, { contact: contact }, { headers }))
+
+  return await Promise.all(createContactsCall).catch((err) => console.error(err))
+}
+
+module.exports = { createActiveCampaignUsers, getCurrentContacts, getCurrentContactsByEmail, updateContacts }

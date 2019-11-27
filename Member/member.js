@@ -18,24 +18,28 @@ class Member {
     this.totalCount = data.totalCheckInCount
   }
 
-  toJson() {
+  toField() {
     return {
       addressLine1: this.addressLine1,
       addressLine2: this.addressLine2,
       city: this.city,
-      'Converted Date': this.convertedDate,
-      'Date of Birth': this.dateOfBirth,
+      convertedDate: this.convertedDate,
+      dateOfBirth: this.dateOfBirth,
+      gender: this.gender,
+      joinStatus: this.joinStatus,
+      membershipStatus: this.membershipStatus,
+      memberSinceDate: this.memberSinceDate,
+      postalCode: this.postalCode,
+      state: this.state,
+      totalCount: this.totalCount
+    }
+  }
+  toContact() {
+    return {
       email: this.email,
       firstName: this.firstName,
-      gender: this.gender,
-      'Join Status': this.joinStatus,
       lastName: this.lastName,
-      'Membership Status': this.membershipStatus,
-      'Member Since Date': this.memberSinceDate,
-      phone: this.primaryPhone,
-      'Postal Code': this.postalCode,
-      state: this.state,
-      'Total Count': this.totalCOunt
+      phone: this.primaryPhone
     }
   }
 }

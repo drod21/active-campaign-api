@@ -13,7 +13,7 @@ class Member {
     this.membershipStatus = data.memberStatus,
     this.memberSinceDate = data.memberStatusDate,
     this.phone = data.primaryPhone,
-    this.postalCode = data.postalCode,
+    this.postalCode = data.postalCode ? data.postalCode.split('-')[0] : null,
     this.state = data.state,
     this.totalCount = data.totalCheckInCount
   }
@@ -39,7 +39,7 @@ class Member {
       email: this.email,
       firstName: this.firstName,
       lastName: this.lastName,
-      phone: this.primaryPhone
+      phone: this.phone
     }
   }
 }

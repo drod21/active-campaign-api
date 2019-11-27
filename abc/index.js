@@ -10,9 +10,9 @@ const headers = {
   app_id: API_APP_ID
 }
 
-const getCreatedDateParams = (currDate, prevDate, page) => ({ createdTimestampRange: shapeDates(currDate, prevDate), page })
-const getModifiedDateParams = (currDate, prevDate) => ({ lastModifiedTimestampRange: shapeDates(currDate, prevDate), page })
-const getCheckInParams = (currDate, prevDate) => ({ lastCheckInTimestamp: shapeDates(currDate, prevDate), page })
+const getCreatedDateParams = (currDate, prevDate, page) => ({ activeStatus: 'active', createdTimestampRange: shapeDates(currDate, prevDate), page })
+const getModifiedDateParams = (currDate, prevDate) => ({ activeStatus: 'active', lastModifiedTimestampRange: shapeDates(currDate, prevDate), page })
+const getCheckInParams = (currDate, prevDate) => ({ activeStatus: 'active', lastCheckInTimestamp: shapeDates(currDate, prevDate), page })
 const shapeDates = (currDate, prevDate) => prevDate ? `${currDate},${prevDate}` : `${currDate}`
 
 function shapeResponse(res) {
@@ -26,20 +26,18 @@ function handleError(error) {
 }
 
 function callGetMembers(page) {
-  return axios.get(`${API_ENDPOINT}/${CLUB_NUMBER}/members`, { headers, params: { page }})
+  return axios.get(`${API_ENDPOINT}/${CLUB_NUMBER}/members`, { headers, params: { activeStatus: 'active', page }})
 }
 
 async function getMembers() {
   let currPage = 1
   let memberCount = 0
-  return await callGetMembers(currPage)
-    .then((res) => {
+  return await callGetMembers(currPage).then((res) => {
       if (res.status !== 200) throw new Error(`Issue getting members: ${res.data.status.message}`)
       memberCount = res.data.status.count
 
       return [...res.data.members]
-    })
-    .then(async (members) => {
+    }).then(async (members) => {
       const updatedMembers = members.slice()
 
       if (updatedMembers.length < memberCount) {

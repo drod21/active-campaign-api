@@ -48,7 +48,7 @@ async function getMembers() {
         }
       }
 
-      return updatedMembers
+      return updatedMembers.filter(({ memberId }, index) => updatedMembers.findIndex((x) => x.memberId === memberId) === index)
     })
 }
 

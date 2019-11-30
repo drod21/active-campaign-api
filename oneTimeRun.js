@@ -6,16 +6,16 @@ const { Member } = require('./Member/member')
 
 // TODO: have to look at field and fieldValue
 async function main() {
-  const updateMembers = (members) => members.map((member) => new Member(member.personal))
+  const formatMembers = (members) => members.map((member) => new Member(member.personal))
   const onError = (error) => {
     console.error('Error occurred::', error)
     return { error: true }
   }
   const dateFormat = 'YYYY-MM-DD hh:mm:ss.SSSSSS'
   const currDate = moment(new Date()).format(dateFormat)
-  const success = await getMembers().then(updateMembers).then(updateContacts).catch(onError)
+  const success = await getMembers().then(formatMembers).then(createActiveCampaignUsers).catch(onError)
 
-  if(!success.error)
+  if(success && !success.error)
     writeDate(currDate)
 }
 

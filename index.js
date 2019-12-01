@@ -15,16 +15,19 @@ async function main() {
   const updatedPrevDate = (!prevDate.includes('Invalid')) ? prevDate : ''
   const currDate = moment(new Date()).format(dateFormat)
   
-  const membersCreated = await getMembersCreated(currDate, updatedPrevDate)
+  await getMembersCreated(currDate, updatedPrevDate)
     .then(formatMembers)
     .then((members) => updateContacts(members))
     .then(() => writeDate(currDate))
     .catch(onError)
-  const membersModified = await getMembersModified(currDate, originalRunDate).then(formatMembers).catch(onError)
-  const membersCheckins = await getMembersCheckIns(currDate, originalRunDate).then(formatMembers).catch(onError)
-
-  const members = [...membersModified, ...membersCheckins]
-  await updateContacts(members).catch(onError)
+  await getMembersModified(currDate, originalRunDate)
+    .then(formatMembers)
+    .then((members) => updateContacts(members))
+    .catch(onError)
+  await getMembersCheckIns(currDate, originalRunDate)
+    .then(formatMembers)
+    .then((members) => updateContacts(members))
+    .catch(onError)
 }
 
 

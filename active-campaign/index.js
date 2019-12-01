@@ -50,47 +50,43 @@ async function getCurrentContactsByEmail(email) {
   return await axios.get(`${ACTIVE_CAMPAIGN_API_URL}/contacts?filters[email]=${email}`)
 }
 
-const getContacts = (contacts) => contacts.map((contact) => contact.toContact())
-const getContactFields = (contacts) => contacts.map((contact) => contact.toField())
-
 async function updateContacts(contacts) {
-  const fieldValues = []
-  const updatedContacts = getContacts(contacts)
-  const contactFields = getContactFields(contacts)
-  
-  const updateContactsCall = updatedContacts.map((contact) => axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contact/sync`, { contact }, { headers }))
-    .then((res) => {
-      const id = res.contact.id
-      const contact = contacts.find((contact) => contact.toContact().email.toLowerCase() === res.contact.email.toLowerCase())
-      fieldValues.push(...postFieldValues(id, contact))
-    })
+  for (let i = 0; i < contacts.length; i++) {
+    const contact = contacts[i]
+    if (!contact.email)
+      continue;
 
-  await Promise.all(updateContactsCall).then(contacts => console.log(contacts)).catch((error) => console.error(error))
-  if (fieldValues.length)
-    await Promise.all(fieldValues)
+    console.log(`Adding/updating contact:: ${contact.firstName} ${contact.lastName}`)
+    const cont = await axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contact/sync`, { contact: contact.toContact() }, { headers }).then((res) => res.data.contact)
+    const { id } = cont
+    await postFieldValues(id, contact)
+  }
 }
 
-function postFieldValues(id, contact) {
-  const postArray = Object.entries(contact.toField()).map((key, value) => ({
-    contact: id,
+async function postFieldValues(id, contact) {
+  console.log(`Adding field values for contact id:: ${id}`)
+  const postArray = Object.entries(contact.toField()).map(([key, value]) => ({
+    contact: parseInt(id, 10),
     field: customFieldsMap[key],
     value
   }))
-  
-  return postArray.map((body) => axios.post(`${ACTIVE_CAMPAIGN_API_URL}/fieldValues`, { fieldValue: body }, { headers }))
+
+  for (let body of postArray) {
+    await axios.post(`${ACTIVE_CAMPAIGN_API_URL}/fieldValues`, { fieldValue: body }, { headers })
+  }
 }
 
 async function createActiveCampaignUsers(contacts) {
-  const fieldValues = []
-  // const createContactPromises = updatedContacts.map((contact) => axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contacts`, { contact }, { headers }))
-  for (let contact of contacts) {
-    await axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contacts`, { contact: contact.toContact() }, { headers }).then((res) => {
-      const { id } = res.data.contact
-      fieldValues.push(...postFieldValues(id, contact))
-    })
+  for (let i = 0; i < contacts.length; i++) {
+    const contact = contacts[i]
+    if (!contact.email)
+      continue;
+
+    console.log(`Adding contact:: ${contact.firstName} ${contact.lastName}`)
+    const cont = await axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contacts`, { contact: contact.toContact() }, { headers }).then((res) => res.data.contact)
+    const { id } = cont
+    await postFieldValues(id, contact)
   }
-  return await Promise.all(fieldValues)
-  // await deleteContacts()
 }
 
 module.exports = {

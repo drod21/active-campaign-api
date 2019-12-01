@@ -10,9 +10,11 @@ const headers = {
   app_id: API_APP_ID
 }
 
+const originalDate = getOriginalRunDate()
+
 const getCreatedDateParams = (currDate, prevDate, page = 1) => ({ createdTimestampRange: shapeDates(currDate, prevDate), page })
-const getModifiedDateParams = (currDate, prevDate, page = 1) => ({ lastModifiedTimestampRange: shapeDates(currDate, prevDate), page })
-const getCheckInParams = (currDate, prevDate, page = 1) => ({ lastCheckInTimestamp: shapeDates(currDate, prevDate), page })
+const getModifiedDateParams = (currDate, prevDate, page = 1) => ({ createdTimestampRange: shapeDates(currDate, originalDate), lastModifiedTimestampRange: shapeDates(currDate, prevDate), page })
+const getCheckInParams = (currDate, prevDate, page = 1) => ({ createdTimestampRange: shapeDates(currDate, originalDate), lastCheckInTimestamp: shapeDates(currDate, prevDate), page })
 const shapeDates = (currDate, prevDate) => prevDate ? `${prevDate},${currDate}` : `${currDate}`
 
 function shapeResponse(res) {

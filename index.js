@@ -5,7 +5,7 @@ const { getOriginalRunDate, getPreviousDate, writeDate } = require('./util/date'
 const { Member } = require('./Member/member')
 const { updateContacts } = require('./active-campaign')
 
-const formatMembers = (members) => members.map((member) => new Member(member.personal).toJson())
+const formatMembers = (members) => members.map((member) => new Member(member.personal))
 const onError = (error) => console.error('Error occurred::', error)
 const dateFormat = 'YYYY-MM-DD hh:mm:ss.SSSSSS'
 

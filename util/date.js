@@ -12,5 +12,8 @@ function getPreviousDate() {
   return fs.readFileSync('date.txt')
 }
 
+function getOriginalRunDate() {
+  return fs.readFileSync('original-date.txt')
+}
 
-module.exports = { getPreviousDate, writeDate }
+module.exports = { getOriginalRunDate, getPreviousDate, writeDate }

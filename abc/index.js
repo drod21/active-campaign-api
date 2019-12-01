@@ -1,5 +1,5 @@
 const axios = require('axios')
-const xmlParser = require('xml2json')
+const { getOriginalRunDate } = require('../util/date')
 
 const CLUB_NUMBER = 6951
 const API_ENDPOINT = 'https://api.abcfinancial.com/rest'
@@ -10,13 +10,13 @@ const headers = {
   app_id: API_APP_ID
 }
 
-const getCreatedDateParams = (currDate, prevDate, page) => ({ activeStatus: 'active', createdTimestampRange: shapeDates(currDate, prevDate), page })
-const getModifiedDateParams = (currDate, prevDate) => ({ activeStatus: 'active', lastModifiedTimestampRange: shapeDates(currDate, prevDate), page })
-const getCheckInParams = (currDate, prevDate) => ({ activeStatus: 'active', lastCheckInTimestamp: shapeDates(currDate, prevDate), page })
-const shapeDates = (currDate, prevDate) => prevDate ? `${currDate},${prevDate}` : `${currDate}`
+const getCreatedDateParams = (currDate, prevDate, page) => ({ createdTimestampRange: shapeDates(currDate, prevDate), page })
+const getModifiedDateParams = (currDate, prevDate) => ({ lastModifiedTimestampRange: shapeDates(currDate, prevDate), page })
+const getCheckInParams = (currDate, prevDate) => ({ lastCheckInTimestamp: shapeDates(currDate, prevDate), page })
+const shapeDates = (currDate, prevDate) => prevDate ? `${prevDate},${currDate}` : `${currDate}`
 
 function shapeResponse(res) {
-  if (res.status !== 200) throw new Error('Error fetching members')
+  if (res.status !== 200 || parseInt(res.data.status.count, 10) === 0) throw new Error('Error fetching members')
 
   return res.data.members
 }
@@ -26,12 +26,13 @@ function handleError(error) {
 }
 
 function callGetMembers(page) {
-  return axios.get(`${API_ENDPOINT}/${CLUB_NUMBER}/members`, { headers, params: { activeStatus: 'active', page }})
+  return axios.get(`${API_ENDPOINT}/${CLUB_NUMBER}/members`, { headers, params: { page }})
 }
 
-async function getMembers() {
+async function getMembers(param) {
   let currPage = 1
   let memberCount = 0
+
   return await callGetMembers(currPage).then((res) => {
       if (res.status !== 200) throw new Error(`Issue getting members: ${res.data.status.message}`)
       memberCount = res.data.status.count

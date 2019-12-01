@@ -56,7 +56,6 @@ async function updateContacts(contacts) {
     if (!contact.email)
       continue;
 
-    console.log(`Adding/updating contact:: ${contact.firstName} ${contact.lastName}`)
     const cont = await axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contact/sync`, { contact: contact.toContact() }, { headers }).then((res) => res.data.contact)
     const { id } = cont
     await postFieldValues(id, contact)
@@ -64,7 +63,6 @@ async function updateContacts(contacts) {
 }
 
 async function postFieldValues(id, contact) {
-  console.log(`Adding field values for contact id:: ${id}`)
   const postArray = Object.entries(contact.toField()).map(([key, value]) => ({
     contact: parseInt(id, 10),
     field: customFieldsMap[key],
@@ -82,7 +80,6 @@ async function createActiveCampaignUsers(contacts) {
     if (!contact.email)
       continue;
 
-    console.log(`Adding contact:: ${contact.firstName} ${contact.lastName}`)
     const cont = await axios.post(`${ACTIVE_CAMPAIGN_API_URL}/contacts`, { contact: contact.toContact() }, { headers }).then((res) => res.data.contact)
     const { id } = cont
     await postFieldValues(id, contact)

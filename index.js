@@ -24,11 +24,7 @@ async function main() {
   const membersCheckins = await getMembersCheckIns(currDate, originalRunDate).then(formatMembers).catch(onError)
 
   const members = [...membersCreated, ...membersModified, ...membersCheckins]
-  const success = await updateContacts(members).catch(onError)
-
-  // After everything is done, update the date
-  if (success && !success.error)
-    writeDate(currDate)
+  await updateContacts(members).catch(onError)
 }
 
 

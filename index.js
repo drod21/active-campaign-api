@@ -23,7 +23,7 @@ async function main() {
   const membersModified = await getMembersModified(currDate, originalRunDate).then(formatMembers).catch(onError)
   const membersCheckins = await getMembersCheckIns(currDate, originalRunDate).then(formatMembers).catch(onError)
 
-  const members = [...membersCreated, ...membersModified, ...membersCheckins]
+  const members = [...membersModified, ...membersCheckins]
   await updateContacts(members).catch(onError)
 }
 

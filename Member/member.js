@@ -11,7 +11,7 @@ class Member {
     this.joinStatus = data.joinStatus,
     this.lastName = data.lastName,
     this.membershipStatus = data.memberStatus,
-    this.memberSinceDate = data.memberStatusDate,
+    this.memberSinceDate = data.memberStatusDate || data.createTimestamp,
     this.phone = data.primaryPhone,
     this.postalCode = data.postalCode ? data.postalCode.split('-')[0] : null,
     this.state = data.state,

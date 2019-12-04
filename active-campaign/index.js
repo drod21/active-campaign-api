@@ -6,18 +6,24 @@ const ACTIVE_CAMPAIGN_API_KEY = '1627e4be72b45515459d19c498580da3e753bd5b1d5690a
 const headers = { Api_token: ACTIVE_CAMPAIGN_API_KEY }
 
 const customFieldsMap = {
-  addressLine1: 1,
-  addressLine2: 2,
-  city: 3,
-  state: 4,
-  postalCode: 5,
-  convertedDate: 6,
-  dateOfBirth: 7,
-  gender: 8,
-  joinStatus: 9,
-  membershipStatus: 10,
-  memberSinceDate: 11,
-  totalCount: 12
+  Address1: 8,
+  Address2: 9,
+  City: 10,
+  State: 11,
+  PostalCode: 12,
+  'Converted Date': 20,
+  DOB: 7,
+  Gender: 5,
+  JoinStatus: 18,
+  MembershipStatus: 21,
+  MemberSinceDate: 11,
+  TotalCount: 22
+}
+
+getCustomFields()
+
+async function getCustomFields() {
+  return await axios.get(`${ACTIVE_CAMPAIGN_API_URL}/fields`, { headers }).then((res) => console.log(res.data))
 }
 
 function getCurrentContacts(offset = 0) {

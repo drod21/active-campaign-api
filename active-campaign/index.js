@@ -16,14 +16,16 @@ const customFieldsMap = {
   Gender: 5,
   JoinStatus: 18,
   MembershipStatus: 21,
-  MemberSinceDate: 11,
+  // MemberSinceDate: 11,
   TotalCount: 22
 }
+// createCustomField().then(() => getCustomFields())
+function getCustomFields() {
+  return axios.get(`${ACTIVE_CAMPAIGN_API_URL}/fields`, { headers }).then((res) => res.data.fields.map(x => ({ title: x.title, id: x.id }))).then((res) => console.log(res))
+}
 
-getCustomFields()
-
-async function getCustomFields() {
-  return await axios.get(`${ACTIVE_CAMPAIGN_API_URL}/fields`, { headers }).then((res) => console.log(res.data))
+function createCustomField() {
+  return axios.post(`${ACTIVE_CAMPAIGN_API_URL}/fields`, { field: { type: 'textarea', title: 'MemberSinceDate', isRequired: 0 }}, { headers })
 }
 
 function getCurrentContacts(offset = 0) {

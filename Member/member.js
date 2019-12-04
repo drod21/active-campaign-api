@@ -20,18 +20,18 @@ class Member {
 
   toField() {
     return {
-      addressLine1: this.addressLine1,
-      addressLine2: this.addressLine2,
-      city: this.city,
-      convertedDate: this.convertedDate,
-      dateOfBirth: this.dateOfBirth,
-      gender: this.gender,
-      joinStatus: this.joinStatus,
-      membershipStatus: this.membershipStatus,
-      memberSinceDate: this.memberSinceDate,
-      postalCode: this.postalCode,
-      state: this.state,
-      totalCount: this.totalCount
+      Address1: this.addressLine1,
+      Address2: this.addressLine2,
+      City: this.city,
+      'Converted Date': this.convertedDate,
+      DOB: this.dateOfBirth,
+      Gender: this.gender,
+      JoinStatus: this.joinStatus,
+      MembershipStatus: this.membershipStatus,
+      MemberSinceDate: this.memberSinceDate,
+      PostalCode: this.postalCode,
+      State: this.state,
+      TotalCount: this.totalCount
     }
   }
   toContact() {

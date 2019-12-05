@@ -28,7 +28,7 @@ class Member {
       Gender: this.gender,
       JoinStatus: this.joinStatus,
       MembershipStatus: this.membershipStatus,
-      MemberSinceDate: this.memberSinceDate,
+      'Member Since Date': this.memberSinceDate,
       PostalCode: this.postalCode,
       State: this.state,
       TotalCount: this.totalCount

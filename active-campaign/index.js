@@ -16,7 +16,7 @@ const customFieldsMap = {
   Gender: 5,
   JoinStatus: 18,
   MembershipStatus: 21,
-  // MemberSinceDate: 11,
+  'Member Since Date': 28,
   TotalCount: 22
 }
 // createCustomField().then(() => getCustomFields())

@@ -77,9 +77,9 @@ async function postFieldValues(id, contact) {
     value
   }))
 
-  for (let body of postArray) {
-    await axios.post(`${ACTIVE_CAMPAIGN_API_URL}/fieldValues`, { fieldValue: body }, { headers })
-  }
+  const postPromises = postArray.map(async (body) => await axios.post(`${ACTIVE_CAMPAIGN_API_URL}/fieldValues`, { fieldValue: body }, { headers }))
+
+  return await Promise.all(postPromises)
 }
 
 async function createActiveCampaignUsers(contacts) {

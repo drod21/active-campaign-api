@@ -19,15 +19,20 @@ async function main() {
     .then(formatMembers)
     .then((members) => updateContacts(members))
     .then(() => writeDate(currDate))
+    .then(() => console.log('New member additions complete'))
     .catch(onError)
   await getMembersModified(currDate, originalRunDate)
     .then(formatMembers)
     .then((members) => updateContacts(members))
+    .then(() => console.log('Updated members complete'))
     .catch(onError)
   await getMembersCheckIns(currDate, originalRunDate)
     .then(formatMembers)
     .then((members) => updateContacts(members))
+    .then(() => console.log('Updated checkins complete'))
     .catch(onError)
+
+  console.log('Run complete')
 }
 
 

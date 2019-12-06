@@ -1,17 +1,22 @@
+const moment = require('moment')
+
+const dateFormat = 'DD-MM-YYYY'
+const formatDate = (date) => moment(new Date(date)).format(dateFormat)
+
 class Member {
   constructor(data) {
     this.addressLine1 = data.addressLine1,
     this.addressLine2 = data.addressLine2,
     this.city = data.city,
-    this.convertedDate = data.convertedDate,
-    this.dateOfBirth = data.birthDate,
+    this.convertedDate = data.convertedDate ? formatDate(data.convertedDate) : null,
+    this.dateOfBirth = formatDate(data.birthDate),
     this.email = data.email,
     this.firstName = data.firstName,
     this.gender = data.gender,
     this.joinStatus = data.joinStatus,
     this.lastName = data.lastName,
     this.membershipStatus = data.memberStatus,
-    this.memberSinceDate = data.memberStatusDate || data.createTimestamp,
+    this.memberSinceDate = formatDate(data.memberStatusDate) || formatDate(data.createTimestamp),
     this.phone = data.primaryPhone,
     this.postalCode = data.postalCode ? data.postalCode.split('-')[0] : null,
     this.state = data.state,

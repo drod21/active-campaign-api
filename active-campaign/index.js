@@ -3,23 +3,27 @@ const qs = require('querystring')
 
 const ACTIVE_CAMPAIGN_API_URL = 'https://westseattlehc1905.api-us1.com/api/3'
 const ACTIVE_CAMPAIGN_API_KEY = '1627e4be72b45515459d19c498580da3e753bd5b1d5690ae23f747da6c7450947fb4565d'
+const DEV_URL = 'https://abcfinancialtest2.api-us1.com/api/3'
+const DEV_KEY = 'e9031858734d1e4434b8e5575c63c75e95fc7ef3d0fc5de9aa4880738d5d43949066877f'
 const headers = { Api_token: ACTIVE_CAMPAIGN_API_KEY }
 
 const customFieldsMap = {
   Address1: 8,
   Address2: 9,
   City: 10,
-  State: 11,
-  PostalCode: 12,
   'Converted Date': 20,
   DOB: 7,
   Gender: 5,
   JoinStatus: 18,
+  // MemberStatus: 23,
   MembershipStatus: 21,
+  MembershipType: 6,
   MemberSinceDate: 25,
+  PostalCode: 12,
+  State: 11,
   TotalCount: 22
 }
-// createCustomField().then(() => getCustomFields())
+
 function getCustomFields() {
   return axios.get(`${ACTIVE_CAMPAIGN_API_URL}/fields`, { headers }).then((res) => res.data.fields.map(x => ({ title: x.title, id: x.id }))).then((res) => console.log(res))
 }

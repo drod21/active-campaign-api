@@ -17,8 +17,8 @@ class Member {
     this.gender = data.gender
     this.joinStatus = data.joinStatus
     this.lastName = data.lastName
-    this.memberStatus = !this.isCanceling(data.memberStatus) ? 'Ok' : null
-    this.membershipStatus = this.isCanceling(data.memberStatus) ? 'Ok' : null
+    this.memberStatus = this.getMemberStatusString(data.memberStatus.toLowerCase())
+    this.membershipStatus = !this.isMember(data.memberStatus) ? 'Ok' : null
     this.membershipType = data.membershipType
     this.memberSinceDate = data.memberSinceDate ? formatDate(data.memberSinceDate) : formatDate(data.createTimestamp)
     this.phone = data.primaryPhone
@@ -28,8 +28,15 @@ class Member {
     this.trialMember = data.joinStatus.toLowerCase() === 'prospect'
   }
 
-  isCanceling(memberStatus) {
-    return memberStatus.toLowerCase().contains('cancel')
+  getMemberStatusString(memberStatus) {
+    if(memberStatus.includes('expired'))
+      return 'Inactive'
+    else if(memberStatus.includes('member') || memberStatus.includes('prospect'))
+      return 'Active'
+  }
+
+  isMember(memberStatus) {
+    return memberStatus.includes('member') || memberStatus.includes('prospect') || memberStatus.includes('expired')
   }
 
   toField() {

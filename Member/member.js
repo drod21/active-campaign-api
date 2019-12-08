@@ -18,14 +18,14 @@ class Member {
     this.joinStatus = data.joinStatus
     this.lastName = data.lastName
     this.memberStatus = this.getMemberStatusString(data.memberStatus.toLowerCase())
-    this.membershipStatus = !this.isMember(data.memberStatus) ? 'Ok' : null
+    this.membershipStatus = this.isMember(data.memberStatus) ? 'Ok' : 'Cancelled'
     this.membershipType = data.membershipType
     this.memberSinceDate = data.memberSinceDate ? formatDate(data.memberSinceDate) : formatDate(data.createTimestamp)
     this.phone = data.primaryPhone
     this.postalCode = data.postalCode ? data.postalCode.split('-')[0] : null
     this.state = data.state
     this.totalCount = data.totalCheckInCount
-    this.trialMember = data.joinStatus.toLowerCase() === 'prospect'
+    this.trialMember = this.isTrialMember(data.joinStatus)
   }
 
   getMemberStatusString(memberStatus) {
@@ -37,6 +37,10 @@ class Member {
 
   isMember(memberStatus) {
     return memberStatus.includes('member') || memberStatus.includes('prospect') || memberStatus.includes('expired')
+  }
+
+  isTrialMember(joinStatus) {
+    return joinStatus.toLowerCase() === 'prospect'
   }
 
   toField() {

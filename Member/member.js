@@ -7,24 +7,29 @@ const formatDate = (date) => new Date(date).toDateString()
 
 class Member {
   constructor(data) {
-    this.addressLine1 = data.addressLine1,
-    this.addressLine2 = data.addressLine2,
-    this.city = data.city,
-    this.convertedDate = data.convertedDate ? formatDate(data.convertedDate) : null,
-    this.dateOfBirth = formatDate(data.birthDate),
-    this.email = data.email,
-    this.firstName = data.firstName,
-    this.gender = data.gender,
-    this.joinStatus = data.joinStatus,
-    this.lastName = data.lastName,
-    // this.memberStatus = data.memberStatus,
-    this.membershipStatus = data.memberStatus,
-    this.membershipType = data.membershipType,
+    this.addressLine1 = data.addressLine1
+    this.addressLine2 = data.addressLine2
+    this.city = data.city
+    this.convertedDate = data.convertedDate ? formatDate(data.convertedDate) : null
+    this.dateOfBirth = formatDate(data.birthDate)
+    this.email = data.email
+    this.firstName = data.firstName
+    this.gender = data.gender
+    this.joinStatus = data.joinStatus
+    this.lastName = data.lastName
+    this.memberStatus = !this.isCanceling(data.memberStatus) ? 'Ok' : null
+    this.membershipStatus = this.isCanceling(data.memberStatus) ? 'Ok' : null
+    this.membershipType = data.membershipType
     this.memberSinceDate = data.memberSinceDate ? formatDate(data.memberSinceDate) : formatDate(data.createTimestamp)
-    this.phone = data.primaryPhone,
-    this.postalCode = data.postalCode ? data.postalCode.split('-')[0] : null,
-    this.state = data.state,
+    this.phone = data.primaryPhone
+    this.postalCode = data.postalCode ? data.postalCode.split('-')[0] : null
+    this.state = data.state
     this.totalCount = data.totalCheckInCount
+    this.trialMember = data.joinStatus.toLowerCase() === 'prospect'
+  }
+
+  isCanceling(memberStatus) {
+    return memberStatus.toLowerCase().contains('cancel')
   }
 
   toField() {
@@ -36,13 +41,14 @@ class Member {
       DOB: this.dateOfBirth,
       Gender: this.gender,
       JoinStatus: this.joinStatus,
-      // MemberStatus: this.memberStatus,
+      MemberStatus: this.memberStatus,
       MembershipStatus: this.membershipStatus,
       MembershipType: this.membershipType,
       MemberSinceDate: this.memberSinceDate,
       PostalCode: this.postalCode,
       State: this.state,
-      TotalCount: this.totalCount
+      TotalCount: this.totalCount,
+      TrialMember: this.trialMember,
     }
   }
   toContact() {

@@ -15,13 +15,14 @@ const customFieldsMap = {
   DOB: 7,
   Gender: 5,
   JoinStatus: 18,
-  // MemberStatus: 23,
+  MemberStatus: 23,
   MembershipStatus: 21,
   MembershipType: 6,
   MemberSinceDate: 25,
   PostalCode: 12,
   State: 11,
-  TotalCount: 22
+  TotalCount: 22,
+  TrialMember: 24
 }
 
 function getCustomFields() {

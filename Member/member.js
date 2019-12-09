@@ -1,9 +1,9 @@
 const moment = require('moment')
 
 const originalDateFormat = 'YYYY-MM-DD hh:mm:ss.SSSSSS'
-const toDateFormat = 'MM-DD-YYYY'
-// const formatDate = (date) => moment(new Date(date), originalDateFormat).format(toDateFormat)
-const formatDate = (date) => new Date(date).toDateString()
+const toDateFormat = 'YYYY-MM-DD'
+const formatDate = (date) => moment(new Date(date), originalDateFormat).format(toDateFormat)
+// const formatDate = (date) => new Date(date).toDateString()
 
 class Member {
   constructor(data) {

@@ -17,8 +17,8 @@ class Member {
     this.gender = data.gender
     this.joinStatus = data.joinStatus
     this.lastName = data.lastName
-    this.memberStatus = this.getMemberStatusString(data.memberStatus.toLowerCase())
-    this.membershipStatus = this.isMember(data.memberStatus) ? 'Ok' : 'Cancelled'
+    this.memberStatus = this.getMemberStatusString(data.memberStatus.toLowerCase(), data.joinStatus.toLowerCase())
+    this.membershipStatus = this.isMember(data.memberStatus.toLowerCase(), data.joinStatus.toLowerCase()) ? 'Ok' : 'Cancelled'
     this.membershipType = data.membershipType
     this.memberSinceDate = data.memberSinceDate ? formatDate(data.memberSinceDate) : formatDate(data.createTimestamp)
     this.phone = data.primaryPhone
@@ -28,15 +28,15 @@ class Member {
     this.trialMember = this.isTrialMember(data.joinStatus)
   }
 
-  getMemberStatusString(memberStatus) {
+  getMemberStatusString(memberStatus, joinStatus) {
     if(memberStatus.includes('expired'))
       return 'Inactive'
-    else if(memberStatus.includes('member') || memberStatus.includes('prospect'))
+    else if(memberStatus.includes('member') || memberStatus.includes('prospect') || joinStatus.includes('prospect') || joinStatus.includes('member'))
       return 'Active'
   }
 
-  isMember(memberStatus) {
-    return memberStatus.includes('member') || memberStatus.includes('prospect') || memberStatus.includes('expired')
+  isMember(memberStatus, joinStatus) {
+    return Boolean(memberStatus.includes('member') || memberStatus.includes('prospect') || memberStatus.includes('expired') || joinStatus.includes('prospect') || joinStatus.includes('member'))
   }
 
   isTrialMember(joinStatus) {
